@@ -1,0 +1,43 @@
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+    
+    <%= link_to "Edit Orders", "/active/orders", class: "nav-link" %>
+    <%= link_to "Edit Menu & Items ", "/menus", class: "nav-link" %>
+    <%= link_to "Delivered Orders", "/owner/completed", class: "nav-link" %>
+
+     
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+<h1 class="heading">Dashboard </h1>
+
+<div class='dashboard-container'>
+  <h3>Total Sales: &#8377; <%= Order.get_profit %></h3>
+</div>
+
+<div class='dashboard-container'>
+  <h3>Total Orders: <%= Order.get_all_orders_count %></h3>
+  <%= line_chart User.group_by_day(:created_at).count, colors: ["#181818", "#666"] %>
+</div>
+
+<div class='dashboard-container'>
+  <h3>Orders By Status:</h3>
+  <%= pie_chart Order.where.not(order_status: "cart").all.group(:order_status).count, colors: ["#181818", "#666"] %>
+</div>
+
+<div class='dashboard-container'>
+  <h3>Users SignIn</h3>
+  <%= column_chart User.group_by_day_of_week(:created_at, format: "%a").count, colors: ["#181818", "#666"] %>
+</div>
+
+</div>
